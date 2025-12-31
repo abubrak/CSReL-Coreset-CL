@@ -207,7 +207,7 @@ def demo_coreset_selection():
     
     # Simple training
     optimizer = torch.optim.SGD(ref_model.parameters(), lr=0.01)
-    criterion = nn.CrossEntropyLoss(reduction='none')
+    criterion = nn.CrossEntropyLoss()
     
     pool_dataset = TensorDataset(X_pool, y_pool)
     pool_loader = DataLoader(pool_dataset, batch_size=32, shuffle=True)
@@ -217,7 +217,7 @@ def demo_coreset_selection():
         for batch_x, batch_y in pool_loader:
             optimizer.zero_grad()
             outputs = ref_model(batch_x)
-            loss = F.cross_entropy(outputs, batch_y)
+            loss = criterion(outputs, batch_y)
             loss.backward()
             optimizer.step()
     
